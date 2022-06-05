@@ -16,9 +16,10 @@ public class SieveEratosthenes {
 
     private void setallPrimes(){
         set = true;
-        for (int i=2; i*i<=n; i++){
-            if (!arr[i])
-            setMultiplesTrue(i);
+        for (int x=2; x*x<=n; x++){
+
+            if (!arr[x])
+                setMultiplesTrue(x);
         }
     }
 
@@ -33,7 +34,8 @@ public class SieveEratosthenes {
     }
 
     void getCountOfPrimes(){
-        if (!set) setallPrimes();
+        if (!set)
+            setallPrimes();
         if (count==0)
             for (int x=2; x<n; x++)
                 if (!arr[x]) count++;
@@ -42,9 +44,9 @@ public class SieveEratosthenes {
 
 
     public static void main(String[] args) {
-        int x = 100_000_000;
+        int x = 100_000;
         SieveEratosthenes sieve = new SieveEratosthenes(x);
-        // sieve.displayPrimes();
+        sieve.displayPrimes();
         sieve.getCountOfPrimes();
     }
 }

@@ -1,54 +1,80 @@
 import java.util.Scanner;
 
-public class SieveOfEratosthenes {
-    static int primeCount = 0;
-    static boolean isPrime(int n){
-        int sqrt = (int)(Math.sqrt(n));
-        for (int x=2; x<=sqrt; x++){
-            if (n%x==0)
+/* It is used to find all prime numbers. */
+
+class Sieve {
+    int n;
+    boolean[] primeArr;
+    Sieve(int n){
+        this.n = n;
+        primeArr = new boolean[n+1];
+    }
+    
+    private static boolean isPrime(int x){
+        for (int i=2; i*i<=x; i++){
+            if(x%i==0)
                 return false;
         }
         return true;
     }
-    
-    static void checkBasePrime(int[] basePrimes, int x){
-        for (int p: basePrimes){
-            if (p!=0 && x%p==0)
-            return;
+    private void setMultiplesTrue(int x){
+        for (int i=x*x; i<=n; i+=x){
+            // int i = 2*x can also be written but, it's less efficient.
+            primeArr[i]=true;
         }
-        primeCount++;
-        // System.out.print(x+" ");
     }
-    static void allPrimes(int x){
-        int sqrt = (int)(Math.sqrt(x));
-        int [] basePrimes = new int[(int) (sqrt/Math.log(sqrt)*1.5)];
-        for (int i = 2; i<=sqrt; i++){
-            if (isPrime(i)){
-                basePrimes[primeCount++] = i;
-                // System.out.print(i+" ");
-            }
+    private void allPrimes(){
+        // Primes that are less than square root of n
+        // Like for n=100 it's 2, 3, 5, 7 are basePrimes
+
+        for (int i=2; i*i<=n; i++){
+            if (!primeArr[i])
+                // Sets value of multiples of base primes as true.
+                setMultiplesTrue(i);
         }
-        for (int i = sqrt+1; i<=x ; i++){
-            checkBasePrime(basePrimes, i);
-        }
+
     }
 
-    static void naivePrimes(int x){
+    void checkGreatestWall(){
+        int[] arr = {6, 9, 20};
+        for (int x: arr)
+            setMultiplesTrue(x);
+    }
+
+    int countPrimes(){
+        allPrimes();
+        int primes = 0;
+        for (int i=2; i<=n; i++)
+            if (!primeArr[i])
+                primes++;
+        return primes;
+    }
+
+    void displayPrimes(){
+        allPrimes();
+        int primes = 0;
+        for (int i=2; i<=n; i++)
+            if (!primeArr[i])
+                System.out.print(i+" ");
+    }
+
+    void naivePrimes(int x){
         int counter= 0;
-        for(int i=2; i< x; i++){
+        for(int i=2; i<x; i++){
             if (isPrime(i)){
                 counter+=1;
             }
         }
         System.out.println("Naive Count = "+ counter);
     }
+}
+
+public class SieveOfEratosthenes {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter range to find all prime no.s: ");
-        int x = scanner.nextInt();
-        allPrimes(x);
-        System.out.println("\nNo. of Primes = "+primeCount);
-        System.out.println("Approx prime count = "+ (int)(x/Math.log(x)));
-        naivePrimes(x);
-    }    
+        Sieve sieve = new Sieve(100);
+        sieve.checkGreatestWall();
+        sieve.displayPrimes();
+//        System.out.println("Approx prime count = "+ (int)(x/Math.log(x)));
+    }
 }
