@@ -16,12 +16,14 @@ class ArrayTest {
     }
 
     public static void main(String[] args) {
-        ArrayList<String> arrayList = new ArrayList<>(
-                List.of(
-                        "Hello",
+        ArrayList arrayList = new ArrayList<>(
+                List.of("Hello",
                         "Hi",
                         "How are you"));
-        ArrayTest.<String>remove(arrayList);
+        String s = (String) arrayList.get(1);
+
+
+        System.out.println(s);
         System.out.println("Hi");
 
     }
