@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 class LinkedList<T> {
     class Node {
         Object data;
