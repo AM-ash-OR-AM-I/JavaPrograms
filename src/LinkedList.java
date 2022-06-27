@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 
-class Node {
-    Object data;
-    Node next;
-}
-
 class LinkedList<T> {
+    class Node {
+        Object data;
+        Node next;
+    }
+
     Node start;
     Node end;
 
@@ -15,7 +15,7 @@ class LinkedList<T> {
         return node;
     }
 
-    void travel(Node addNode) {
+    Node travelEnd() {
         Node cursor;
         if (end == null) {
             cursor = start;
@@ -24,37 +24,44 @@ class LinkedList<T> {
             }
         } else
             cursor = end;
-        cursor.next = addNode;
-        end = cursor;
+        return cursor;
     }
 
-    void travel(Node addNode, int index) {
+    Node travelTo(int index) {
         Node cursor = start;
         int count = 0;
         while (++count < index) {
             cursor = cursor.next;
         }
-        addNode.next = cursor.next; // node.next was null and is now pointing to cursor.next
-        cursor.next = addNode; // cursor.next now points to node
+        return cursor;
     }
 
-    void insert(T data) {
-        Node node = createNode(data);
+    void insertEnd(T data) {
+        Node addNode = createNode(data);
         if (start == null) {
-            start = node;
-        } else
-            travel(node);
+            start = addNode;
+        } 
+        else{
+            Node curr = travelEnd();
+            curr.next = addNode;
+            end = curr;
+        }
     }
 
-    void insert(int index, T data) {
+    void insertAny(int index, T data) {
         if (index != 0) {
-            Node node = createNode(data);
+            Node addNode = createNode(data);
             if (start == null)
-                start = node;
-            else
-                travel(node, index);
+                start = addNode;
+            else{
+                Node cursor = travelTo(index);
+                addNode.next = cursor.next; // node.next was null and is now pointing to cursor.next
+                cursor.next = addNode; // cursor.next now points to node
+            }
         } else
             insertStart(data);
+        System.out.println("After insertion at "+ index);
+        display();
 
     }
 
@@ -87,28 +94,36 @@ class LinkedList<T> {
         cursor.next = newNode; // Previous node now links with new node
     }
 
+    void deleteNodeAt(int index) {
+        if (index == 0) {
+            start = start.next;
+        } else {
+            Node cursor = travelTo(index);
+            cursor.next = cursor.next.next;
+        }
+        System.out.println("Linked list after deletion: ");
+        display();
+    }
+
     void display() {
         Node cursor = start;
         while (cursor.next != null) {
             System.out.print(cursor.data + " -> ");
             cursor = cursor.next;
         }
-        System.out.print(cursor.data);
+        System.out.print(cursor.data + "\n");
     }
 }
 
 class Main {
     public static void main(String[] args) {
         LinkedList<Integer> l = new LinkedList<>();
-        // l.insert(34);
-        // l.insert(45);
-        // l.insert(55); // Inserts at last by default
-        // l.insert(1, 65); // Inserts at any index in Linked List
-        // l.insertAfter(50, 45);
-        // l.insertBefore(40, 45);
-        for (int i = 0; i < 10_000_000; i++) {
-            l.insert(i);
-        }
-        // l.display();
+        l.insertEnd(34);
+        l.insertEnd(45);
+        l.insertEnd(55); // Inserts at last by default
+        l.insertAny(1, 65); // Inserts at any index in Linked List
+        l.insertAfter(50, 45);
+        l.insertBefore(40, 45);
+        l.deleteNodeAt(4);
     }
 }
