@@ -1,11 +1,19 @@
-class LinkedList<T> {
+public class LinkedList<T> {
     class Node {
-        Object data;
+        T data;
         Node next;
     }
+    Node start, end;
 
-    Node start;
-    Node end;
+    public int length(){
+        Node current = start;
+        int count = 0;
+        while (current.next != null) {
+            current = current.next;
+            count++;
+        }
+        return count;
+    }
 
     Node createNode(T data) {
         Node node = new Node();
@@ -14,102 +22,97 @@ class LinkedList<T> {
     }
 
     Node travelEnd() {
-        Node cursor;
-        if (end == null) {
-            cursor = start;
-            while (cursor.next != null) {
-                cursor = cursor.next;
-            }
-        } else
-            cursor = end;
-        return cursor;
+        Node current = start;
+        while (current.next != null) {
+            current = current.next;
+        }
+        return current;
     }
 
     Node travelTo(int index) {
-        Node cursor = start;
+        Node current = start;
         int count = 0;
         while (++count < index) {
-            cursor = cursor.next;
+            current = current.next;
         }
-        return cursor;
+        return current;
     }
 
-    void insertEnd(T data) {
+    public void insertEnd(T data) {
         Node addNode = createNode(data);
         if (start == null) {
             start = addNode;
-        } 
-        else{
-            Node curr = travelEnd();
-            curr.next = addNode;
-            end = curr;
+        } else {
+            Node current;
+            if (end != null)
+                current = end;
+            else
+                current = travelEnd(); // End value not initialised so travel till end.
+            current.next = addNode;
+            end = current;
         }
     }
 
-    void insertAny(int index, T data) {
+    public void insertAny(int index, T data) {
         if (index != 0) {
             Node addNode = createNode(data);
             if (start == null)
                 start = addNode;
-            else{
-                Node cursor = travelTo(index);
-                addNode.next = cursor.next; // node.next was null and is now pointing to cursor.next
-                cursor.next = addNode; // cursor.next now points to node
+            else {
+                Node current = travelTo(index);
+                addNode.next = current.next; // node.next was null and is now pointing to current.next
+                current.next = addNode; // current.next now points to node
             }
         } else
             insertStart(data);
-        System.out.println("After insertion at "+ index);
-        display();
-
     }
 
-    void insertStart(T data) {
+    public void insertStart(T data) {
         Node node = createNode(data);
         if (start != null)
             node.next = start;
         start = node;
-
     }
 
-    void insertBefore(T data, T toSearch) {
+    public void insertBefore(T data, T toSearch) {
         Node newNode = createNode(data);
-        Node cursor1 = start, cursor2 = start;
-        while (cursor2.data != toSearch && cursor2.next != null) {
-            cursor1 = cursor2;
-            cursor2 = cursor2.next;
+        Node current1 = start, current2 = start;
+        while (current2.data != toSearch && current2.next != null) {
+            current1 = current2;
+            current2 = current2.next;
         }
-        newNode.next = cursor1.next;
-        cursor1.next = newNode;
+        newNode.next = current1.next;
+        current1.next = newNode;
     }
 
-    void insertAfter(T data, T toSearch) {
+    public void insertAfter(T data, T toSearch) {
         Node newNode = createNode(data);
-        Node cursor = start;
-        while (cursor.data != toSearch && cursor.next != null) {
-            cursor = cursor.next;
+        Node current = start;
+        while (current.data != toSearch && current.next != null) {
+            current = current.next;
         }
-        newNode.next = cursor.next; // New node now links with the next node.
-        cursor.next = newNode; // Previous node now links with new node
+        newNode.next = current.next; // New node now links with the next node.
+        current.next = newNode; // Previous node now links with new node
     }
 
-    void deleteNodeAt(int index) {
+    public void deleteNodeAt(int index) {
         if (index == 0) {
             start = start.next;
         } else {
-            Node cursor = travelTo(index);
-            cursor.next = cursor.next.next;
+            Node current = travelTo(index);
+            current.next = current.next.next;
         }
         System.out.println("Linked list after deletion: ");
-        display();
     }
 
-    void display() {
-        Node cursor = start;
-        while (cursor.next != null) {
-            System.out.print(cursor.data + " -> ");
-            cursor = cursor.next;
+    public void display(String message) {
+        System.out.println(message);
+        Node current = start;
+        while (current.next != null) {
+            System.out.print(current.data + " -> ");
+            current = current.next;
         }
-        System.out.print(cursor.data + "\n");
+        System.out.print(current.data + "\n");
     }
 }
 
