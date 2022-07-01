@@ -1,24 +1,22 @@
-public class LinkedList<T> {
+public class LinkedList<T extends Comparable<T>> {
     class Node {
         T data;
         Node next;
+        Node(T data){
+            this.data = data;
+        }
     }
     Node start, end;
 
     public int length(){
+        // Gets the length of linked list
         Node current = start;
         int count = 0;
-        while (current.next != null) {
+        while (current != null) {
             current = current.next;
             count++;
         }
         return count;
-    }
-
-    Node createNode(T data) {
-        Node node = new Node();
-        node.data = data;
-        return node;
     }
 
     Node travelEnd() {
@@ -39,9 +37,10 @@ public class LinkedList<T> {
     }
 
     public void insertEnd(T data) {
-        Node addNode = createNode(data);
+        // Inserts at end of Linked List
+        Node addNode = new Node(data);
         if (start == null) {
-            start = addNode;
+            start = end = addNode;
         } else {
             Node current;
             if (end != null)
@@ -49,13 +48,14 @@ public class LinkedList<T> {
             else
                 current = travelEnd(); // End value not initialised so travel till end.
             current.next = addNode;
-            end = current;
+            end = addNode;
         }
     }
 
     public void insertAny(int index, T data) {
+        // Inserts at any index in Linked List
         if (index != 0) {
-            Node addNode = createNode(data);
+            Node addNode = new Node(data);
             if (start == null)
                 start = addNode;
             else {
@@ -68,14 +68,16 @@ public class LinkedList<T> {
     }
 
     public void insertStart(T data) {
-        Node node = createNode(data);
+        // Insert at the beginning of the Node
+        Node node = new Node(data);
         if (start != null)
             node.next = start;
         start = node;
     }
 
     public void insertBefore(T data, T toSearch) {
-        Node newNode = createNode(data);
+        // Insert before given Element
+        Node newNode = new Node(data);
         Node current1 = start, current2 = start;
         while (current2.data != toSearch && current2.next != null) {
             current1 = current2;
@@ -86,7 +88,8 @@ public class LinkedList<T> {
     }
 
     public void insertAfter(T data, T toSearch) {
-        Node newNode = createNode(data);
+        // Insert after given Element
+        Node newNode = new Node(data);
         Node current = start;
         while (current.data != toSearch && current.next != null) {
             current = current.next;
@@ -96,6 +99,7 @@ public class LinkedList<T> {
     }
 
     public void deleteNodeAt(int index) {
+        // Delete node at any index
         if (index == 0) {
             start = start.next;
         } else {
@@ -103,6 +107,27 @@ public class LinkedList<T> {
             current.next = current.next.next;
         }
         System.out.println("Linked list after deletion: ");
+    }
+
+    void swap(Node node1, Node node2){
+        T temp = node1.data;
+        node1.data = node2.data;
+        node2.data = temp;
+    }
+
+    void sort(){
+        int n = length();
+        Node current;
+        for (int i = 0; i < n - 1; i++) {
+            current = start;
+            for (int j = 0; j < (n - i - 1); j++) {
+                if (current.data.compareTo(current.next.data) > 0){
+                    swap(current, current.next);
+                }
+                current = current.next;
+            }
+//            display(String.format("Linked List at %sth step", i+1));
+        }
     }
 
     public void display(String message) {
@@ -118,13 +143,13 @@ public class LinkedList<T> {
 
 class Main {
     public static void main(String[] args) {
-        LinkedList<Integer> l = new LinkedList<>();
-        l.insertEnd(34);
-        l.insertEnd(45);
-        l.insertEnd(55); // Inserts at last by default
-        l.insertAny(1, 65); // Inserts at any index in Linked List
-        l.insertAfter(50, 45);
-        l.insertBefore(40, 45);
-        l.deleteNodeAt(4);
+        LinkedList<String> l = new LinkedList<>();
+        String[] arr = {"a","bc","ac","abc"};
+        for(int i = 0; i< arr.length; i++){
+            l.insertEnd(arr[i]);
+        }
+        l.display("Linked list Before Sorting: ");
+        l.sort();
+        l.display("Linked List After sorting: ");
     }
 }
