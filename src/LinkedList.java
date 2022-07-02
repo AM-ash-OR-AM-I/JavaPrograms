@@ -130,6 +130,19 @@ public class LinkedList<T extends Comparable<T>> {
         }
     }
 
+    void reverse(){
+        Node p = start, q = p.next, r = q.next;
+        p.next = null;
+        q.next = p;
+        while (r!=null){
+            p = q;
+            q = r;
+            r = r.next;
+            q.next = p;
+        }
+        start = q;
+    }
+
     public void display(String message) {
         System.out.println(message);
         Node current = start;
@@ -151,5 +164,7 @@ class Main {
         l.display("Linked list Before Sorting: ");
         l.sort();
         l.display("Linked List After sorting: ");
+        l.reverse();
+        l.display("Linked List after reverse: ");
     }
 }
