@@ -1,3 +1,5 @@
+import java.util.HashSet;
+
 public class LinkedList<T extends Comparable<T>> {
     class Node {
         T data;
@@ -109,10 +111,68 @@ public class LinkedList<T extends Comparable<T>> {
         System.out.println("Linked list after deletion: ");
     }
 
-    void swap(Node node1, Node node2){
+    void swapNode(Node swap1st, Node swap0th, int index, int n){
+        Node swap2nd = swap1st.next, swap3rd = swap2nd.next;
+
+        /* Check if the node is 1st and swap connection of 0th node to point to 2nd like:
+            0th  1st  2nd  3rd
+            2  x  5 -> 4 -> 6
+            |--------->|
+        */
+        if (index != 0)
+            swap0th.next = swap2nd;
+        else
+            start = swap2nd;
+
+
+        /*  Change next of smaller node to point to bigger node
+            0th  1st  2nd  3rd
+                   ->
+            2    5 <- 4  x  6
+            |---------->|
+        */
+        swap2nd.next = swap1st;
+
+        /*  Check if node is 2nd last and create connection between 1st and 3rd
+            0th  1st  2nd  3rd
+                 |--------->|
+            2    5 <- 4  x  6
+            |-------->|
+
+            => 2 -> 4 -> 5 -> 6
+        */
+        if (index != n-2)
+            swap1st.next = swap3rd;
+        else{
+            swap1st.next = null;
+            end = swap1st;
+        }
+    }
+
+    void sortByNode(){
+        int n = length();
+        Node current, previous;
+        for (int i = 0; i < n - 1; i++) {
+            previous = current = start;
+            for (int j = 0; j < (n - i - 1); j++) {
+                Node next_node = current.next;
+                if (current.data.compareTo(next_node.data) > 0){
+                    swapNode(current, previous, j, n);
+                    previous = next_node;
+                }
+                else{
+                    previous = current;
+                    current = current.next;
+                }
+            }
+            display(String.format("Linked List at %sth step", i+1));
+        }
+    }
+
+    void swap(Node node1){
         T temp = node1.data;
-        node1.data = node2.data;
-        node2.data = temp;
+        node1.data = node1.next.data;
+        node1.next.data = temp;
     }
 
     void sort(){
@@ -121,14 +181,15 @@ public class LinkedList<T extends Comparable<T>> {
         for (int i = 0; i < n - 1; i++) {
             current = start;
             for (int j = 0; j < (n - i - 1); j++) {
-                if (current.data.compareTo(current.next.data) > 0){
-                    swap(current, current.next);
-                }
+                Node next_node = current.next;
+                if (current.data.compareTo(next_node.data) > 0)
+                    swap(current);
                 current = current.next;
             }
-//            display(String.format("Linked List at %sth step", i+1));
         }
+        display("Sorted Linked List: ");
     }
+
 
     void reverse(){
         Node p = start, q = p.next, r = q.next;
@@ -152,19 +213,39 @@ public class LinkedList<T extends Comparable<T>> {
         }
         System.out.print(current.data + "\n");
     }
+
+    // Optional method duplicates can be removed with hashmap in O(n).
+    void removeDuplicate(){
+        HashSet<T> hashSet = new HashSet<>();
+        Node current = start, prev = null;
+        while (current!=null){
+            if (hashSet.contains(current.data)){
+                if (current.next == null) { // If it's the last node
+                    prev.next = null;
+                    end = prev;
+                }
+                else prev.next = current.next;
+            }
+            hashSet.add(current.data);
+            prev = current;
+            current = current.next;
+        }
+        display("Linked list after removing duplicates: ");
+    }
+
 }
 
 class Main {
     public static void main(String[] args) {
-        LinkedList<String> l = new LinkedList<>();
-        String[] arr = {"a","bc","ac","abc"};
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        Integer[] arr = {4534, 23, 345, 234, 34, 324, 23, 3242};
         for(int i = 0; i< arr.length; i++){
-            l.insertEnd(arr[i]);
+            linkedList.insertEnd(arr[i]);
         }
-        l.display("Linked list Before Sorting: ");
-        l.sort();
-        l.display("Linked List After sorting: ");
-        l.reverse();
-        l.display("Linked List after reverse: ");
+        linkedList.display("Linked list Before Sorting: ");
+        linkedList.sort();
+//        l.display("Linked List After sorting: ");
+        linkedList.reverse();
+        linkedList.display("Linked List after reverse: ");
     }
 }
