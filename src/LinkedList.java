@@ -108,7 +108,6 @@ public class LinkedList<T extends Comparable<T>> {
             Node current = travelTo(index);
             current.next = current.next.next;
         }
-        System.out.println("Linked list after deletion: ");
     }
 
     void swapNode(Node swap1st, Node swap0th, int index, int n){
@@ -239,8 +238,8 @@ class Main {
     public static void main(String[] args) {
         LinkedList<Integer> linkedList = new LinkedList<>();
         Integer[] arr = {4534, 23, 345, 234, 34, 324, 23, 3242};
-        for(int i = 0; i< arr.length; i++){
-            linkedList.insertEnd(arr[i]);
+        for (Integer integer : arr) {
+            linkedList.insertEnd(integer);
         }
         linkedList.display("Linked list Before Sorting: ");
         linkedList.sort();
