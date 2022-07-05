@@ -10,8 +10,10 @@ public class LinkedList<T extends Comparable<T>> {
     }
     Node start, end;
 
+    /**
+     * @return length of linked list
+     */
     public int length(){
-        // Gets the length of linked list
         Node current = start;
         int count = 0;
         while (current != null) {
@@ -29,6 +31,11 @@ public class LinkedList<T extends Comparable<T>> {
         return current;
     }
 
+    /**
+     * Returns node at any index by iterating through linkedList.
+     * @param index index of node
+     * @return Node
+     */
     Node travelTo(int index) {
         Node current = start;
         int count = 0;
@@ -54,8 +61,12 @@ public class LinkedList<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * Inserts at any index in Linked List
+     * @param index index at which new node is to be inserted
+     * @param data data of new node
+     */
     public void insertAny(int index, T data) {
-        // Inserts at any index in Linked List
         if (index != 0) {
             Node addNode = new Node(data);
             if (start == null)
@@ -89,8 +100,12 @@ public class LinkedList<T extends Comparable<T>> {
         current1.next = newNode;
     }
 
+    /**
+     * Inserts after given Element
+     * @param data data of new Node
+     * @param toSearch data of node after which element needs to be inserted
+     */
     public void insertAfter(T data, T toSearch) {
-        // Insert after given Element
         Node newNode = new Node(data);
         Node current = start;
         while (current.data != toSearch && current.next != null) {
@@ -110,6 +125,12 @@ public class LinkedList<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * @param swap1st 1st node to be swapped
+     * @param swap0th node before 1st node
+     * @param index value of j in 2nd for loop to check if it's last node
+     * @param n length of linked list
+     */
     void swapNode(Node swap1st, Node swap0th, int index, int n){
         Node swap2nd = swap1st.next, swap3rd = swap2nd.next;
 
@@ -148,6 +169,9 @@ public class LinkedList<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * Sorts the linked list by swapping nodes instead of data of nodes.
+     */
     void sortByNode(){
         int n = length();
         Node current, previous;
@@ -174,6 +198,9 @@ public class LinkedList<T extends Comparable<T>> {
         node1.next.data = temp;
     }
 
+    /**
+     * Sorts LinkedList by swapping data.
+     */
     void sort(){
         int n = length();
         Node current;
@@ -213,7 +240,7 @@ public class LinkedList<T extends Comparable<T>> {
         System.out.print(current.data + "\n");
     }
 
-    // Optional method duplicates can be removed with hashmap in O(n).
+
     void removeDuplicate(){
         HashSet<T> hashSet = new HashSet<>();
         Node current = start, prev = null;

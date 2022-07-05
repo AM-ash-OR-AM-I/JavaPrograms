@@ -91,8 +91,10 @@ class LinkList{
         display();
     }
 
+    /**
+     * @return int, length of linked list
+     */
     int length(){
-        // Gets the length of linked list
         Node current = start;
         int count = 0;
         while (current != null) {
