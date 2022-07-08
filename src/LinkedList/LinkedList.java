@@ -1,3 +1,5 @@
+package LinkedList;
+
 import java.util.HashSet;
 
 public class LinkedList<T extends Comparable<T>> {
@@ -199,7 +201,7 @@ public class LinkedList<T extends Comparable<T>> {
     }
 
     /**
-     * Sorts LinkedList by swapping data.
+     * Sorts LinkedList.LinkedList by swapping data.
      */
     void sort(){
         int n = length();
