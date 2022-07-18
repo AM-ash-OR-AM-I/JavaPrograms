@@ -1,8 +1,8 @@
-package LinkedList;
+package linkedList;
 
 import java.util.HashSet;
 
-public class LinkedList<T extends Comparable<T>> {
+public class LinkedList<T extends Comparable<T>> implements LinkedListInterface<T> {
     class Node {
         T data;
         Node next;
@@ -47,6 +47,7 @@ public class LinkedList<T extends Comparable<T>> {
         return current;
     }
 
+    @Override
     public void insertEnd(T data) {
         // Inserts at end of Linked List
         Node addNode = new Node(data);
@@ -68,6 +69,7 @@ public class LinkedList<T extends Comparable<T>> {
      * @param index index at which new node is to be inserted
      * @param data data of new node
      */
+    @Override
     public void insertAny(int index, T data) {
         if (index != 0) {
             Node addNode = new Node(data);
@@ -79,10 +81,30 @@ public class LinkedList<T extends Comparable<T>> {
                 current.next = addNode; // current.next now points to node
             }
         } else
-            insertStart(data);
+            insertBeg(data);
     }
 
-    public void insertStart(T data) {
+    @Override
+    public void deleteBeg() {
+
+    }
+
+    @Override
+    public void deleteEnd() {
+
+    }
+
+    @Override
+    public void deleteAny(int index) {
+        if (index == 0) {
+            start = start.next;
+        } else {
+            Node current = travelTo(index);
+            current.next = current.next.next;
+        }
+    }
+
+    public void insertBeg(T data) {
         // Insert at the beginning of the Node
         Node node = new Node(data);
         if (start != null)
@@ -117,15 +139,6 @@ public class LinkedList<T extends Comparable<T>> {
         current.next = newNode; // Previous node now links with new node
     }
 
-    public void deleteNodeAt(int index) {
-        // Delete node at any index
-        if (index == 0) {
-            start = start.next;
-        } else {
-            Node current = travelTo(index);
-            current.next = current.next.next;
-        }
-    }
 
     /**
      * @param swap1st 1st node to be swapped
@@ -203,7 +216,7 @@ public class LinkedList<T extends Comparable<T>> {
     /**
      * Sorts LinkedList.LinkedList by swapping data.
      */
-    void sort(){
+    public void sort(){
         int n = length();
         Node current;
         for (int i = 0; i < n - 1; i++) {
@@ -219,7 +232,7 @@ public class LinkedList<T extends Comparable<T>> {
     }
 
 
-    void reverse(){
+    public void reverse(){
         Node p = start, q = p.next, r = q.next;
         p.next = null;
         q.next = p;

@@ -1,4 +1,4 @@
-package LinkedList;
+package linkedList;
 import java.util.Scanner;
 
 class StackLList extends BaseStack{
@@ -10,7 +10,7 @@ class StackLList extends BaseStack{
     public void push(int data) {
         if (length < MAX_LENGTH){
             length++;
-            insertStart(data);
+            insertBeg(data);
         }
         else {
             System.out.println("\nOverflow: Stack is already full.");

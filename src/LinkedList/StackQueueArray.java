@@ -1,4 +1,4 @@
-package LinkedList;
+package linkedList;
 
 class Stack extends BaseStack{
     int top = -1;

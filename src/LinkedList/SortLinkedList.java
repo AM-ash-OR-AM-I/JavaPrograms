@@ -1,4 +1,4 @@
-package LinkedList;
+package linkedList;
 
 class BubbleSortArray<T extends Comparable<T>> {
     T[] arr;
