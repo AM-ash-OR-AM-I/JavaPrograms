@@ -10,6 +10,7 @@ public class CircularLinkedList<T> implements LinkedListInterface<T>{
     }
 
     Node end;
+
     @Override
     public void insertBeg(T data) {
         Node node = new Node(data);
@@ -26,16 +27,24 @@ public class CircularLinkedList<T> implements LinkedListInterface<T>{
     @Override
     public void insertEnd(T data) {
         Node node = new Node(data);
-        if (end==null){
+        if (end == null) {
             end = node;
             end.next = end;
-        }
-        else {
+        } else {
             node.next = end.next;
             end.next = node;
             end = node;
         }
 
+    }
+    
+    Node travelTo(int index) {
+        Node current = end.next;
+        int count = 0;
+        while (++count < index) {
+            current = current.next;
+        }
+        return current;
     }
 
     @Override
@@ -48,7 +57,9 @@ public class CircularLinkedList<T> implements LinkedListInterface<T>{
             insertEnd(data);
         }
         else{
-
+            Node current = travelTo(index);
+            node.next = current.next;
+            current.next = node;
         }
     }
 
@@ -85,7 +96,6 @@ public class CircularLinkedList<T> implements LinkedListInterface<T>{
         System.out.printf("<%s<%n","-".repeat(count*9));
     }
 
-    @Override
     public int count() {
         if (end==null)
             return 0;
@@ -106,6 +116,7 @@ class MainCLL {
         cll.insertEnd(3424);
         cll.insertEnd(234);
         cll.insertBeg(56754);
+        cll.insertAny(1, 12);
         cll.display("");
     }
 }

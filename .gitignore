@@ -1,3 +1,5 @@
 *.class
 *.json
 *.py
+bin/Output.txt
+src/Output.txt

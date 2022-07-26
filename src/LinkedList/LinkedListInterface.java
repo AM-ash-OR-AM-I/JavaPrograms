@@ -9,6 +9,4 @@ public interface LinkedListInterface<T> {
     void deleteAny(int index);
     void sort();
     void display(String message);
-
-    int count();
 }
